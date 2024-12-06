@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'screens/screen1.dart';
-import 'screens/screen2.dart';
+import 'package:flutter/material.dart'; 
+import 'navegacion/drawer.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,8 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Aplicación Móvil',
+      title: 'Aplicación Flutter',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: Prueba(),
     );
@@ -22,73 +20,36 @@ class Prueba extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Prueba')),
-      drawer: AppDrawer(),
+      appBar: AppBar(title: Text("Prueba")),
+      drawer: DrawerWidget(),
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/a.jpg'),
-                fit: BoxFit.cover,
+          // Imagen de fondo en la ventana Prueba
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/a.jpg'),
+                  fit: BoxFit.cover, 
+                ),
               ),
             ),
           ),
+
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 Text(
                   'Cristian Tulmo',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: TextStyle(color: Colors.white, fontSize: 40),
                 ),
                 Text(
                   'crismi16',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: TextStyle(color: Colors.white, fontSize: 40),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AppDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
-            child: Text(
-              'Menú de Navegación',
-              style: TextStyle(color: Colors.white, fontSize: 24),
-            ),
-          ),
-          ListTile(
-            title: Text('Prueba'),
-            onTap: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Prueba()));
-            },
-          ),
-          ListTile(
-            title: Text('Ejercicio 01'),
-            onTap: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Ejercicio01()));
-            },
-          ),
-          ListTile(
-            title: Text('Ejercicio 02'),
-            onTap: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Ejercicio02()));
-            },
           ),
         ],
       ),

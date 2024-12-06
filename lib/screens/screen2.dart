@@ -1,51 +1,100 @@
 import 'package:flutter/material.dart';
+import '../navegacion/drawer.dart';
 
-class Ejercicio02 extends StatefulWidget {
-  @override
-  _Ejercicio02State createState() => _Ejercicio02State();
-}
-
-class _Ejercicio02State extends State<Ejercicio02> {
-  final _velocidadController = TextEditingController();
-  String _resultado = '';
-
-  void calcularDistancia() {
-    double velocidad = double.tryParse(_velocidadController.text) ?? 0.0;
-
-    if (velocidad > 0) {
-      double distancia = velocidad * 100; // d = v * t
-      setState(() {
-        _resultado = 'Distancia: ${distancia.toStringAsFixed(1)} m';
-      });
-    }
-  }
+class Ejercicio02 extends StatelessWidget {
+  const Ejercicio02({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Ejercicio 02')),
+      appBar: AppBar(
+        title: Text("Ejercicio 02"),
+      ),
+      drawer: DrawerWidget(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: _velocidadController,
-              decoration: InputDecoration(labelText: 'Velocidad (m/s)'),
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: calcularDistancia,
-              child: Text('Calcular Distancia'),
-            ),
-            SizedBox(height: 20),
             Text(
-              _resultado,
-              style: TextStyle(fontSize: 18),
+              "Ejercicio 02: Cálculo de Distancia",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
+            SizedBox(height: 20),
+            velocidad_input(),
+            SizedBox(height: 20),
+            calcular_btn(context),
           ],
         ),
       ),
     );
   }
+}
+
+TextEditingController _velocidad = TextEditingController();
+
+Widget velocidad_input() {
+  return TextField(
+    controller: _velocidad,
+    keyboardType: TextInputType.number,
+    decoration: InputDecoration(
+      labelText: "Velocidad en m/s",
+      border: OutlineInputBorder(),
+      filled: true,
+      fillColor: Colors.white,
+    ),
+  );
+}
+
+Widget calcular_btn(context) {
+  return ElevatedButton.icon(
+    onPressed: () => calcular(context),
+    icon: Icon(
+      Icons.calculate_rounded,
+      size: 30,
+      color: Colors.white,
+    ),
+    label: Text(
+      "Calcular Distancia",
+      style: TextStyle(fontSize: 18, color: Colors.white),
+    ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor:Colors.blue,
+      padding: EdgeInsets.symmetric(vertical: 15),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+    ),
+  );
+}
+
+void calcular(context) {
+  double velocidad = double.parse(_velocidad.text);
+  double distancia = velocidad * 100; // tiempo fijo de 100 segundos
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text("Resultado Distancia"),
+        content: Text(
+          "La distancia recorrida es: ${distancia.toStringAsFixed(2)} metros",
+          style: TextStyle(fontSize: 20),
+        ),
+        actions: [
+          FilledButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+            ),
+            child: Text(
+              "Aceptar",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
